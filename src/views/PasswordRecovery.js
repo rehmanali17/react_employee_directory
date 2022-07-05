@@ -48,8 +48,8 @@ const PasswordRecovery = () => {
                                             value={values.email}
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-                                            errors={errors}
-                                            touched={touched}
+                                            error={errors.email}
+                                            touched={touched.email}
                                         />
                                         <CustomButton
                                             type="submit"

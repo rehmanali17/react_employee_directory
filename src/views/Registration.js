@@ -50,8 +50,8 @@ const Regisration = () => {
                                             value={values.name}
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-                                            errors={errors}
-                                            touched={touched}
+                                            error={errors.name}
+                                            touched={touched.name}
                                         />
                                         <TextInput
                                             label="Company Name"
@@ -60,8 +60,8 @@ const Regisration = () => {
                                             value={values.companyName}
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-                                            errors={errors}
-                                            touched={touched}
+                                            error={errors.companyName}
+                                            touched={touched.companyName}
                                         />
                                         <TextInput
                                             label="Password"
@@ -70,8 +70,8 @@ const Regisration = () => {
                                             value={values.password}
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-                                            errors={errors}
-                                            touched={touched}
+                                            error={errors.password}
+                                            touched={touched.password}
                                         />
                                         <TextInput
                                             label="Confirm Password"
@@ -80,8 +80,8 @@ const Regisration = () => {
                                             value={values.confirmPassword}
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-                                            errors={errors}
-                                            touched={touched}
+                                            error={errors.confirmPassword}
+                                            touched={touched.confirmPassword}
                                         />
                                         <CustomButton
                                             type="submit"

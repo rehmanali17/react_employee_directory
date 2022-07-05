@@ -3,7 +3,6 @@ import { Grid, TextField, Typography, InputLabel } from "@mui/material";
 import PropTypes from "prop-types";
 
 const TextInput = props => {
-    const { type } = props;
     return (
         <Grid sx={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
             <InputLabel>{props.label}</InputLabel>
@@ -34,9 +33,7 @@ const TextInput = props => {
                     color: "red",
                 }}
             >
-                {props.errors[type] && props.touched[type]
-                    ? props.errors[type]
-                    : ""}
+                {props.error && props.touched ? props.error : ""}
             </Typography>
         </Grid>
     );
@@ -49,8 +46,8 @@ TextInput.propTypes = {
     value: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
     onBlur: PropTypes.func.isRequired,
-    errors: PropTypes.object.isRequired,
-    touched: PropTypes.object.isRequired,
+    error: PropTypes.string.isRequired,
+    touched: PropTypes.bool.isRequired,
 };
 
 export default TextInput;

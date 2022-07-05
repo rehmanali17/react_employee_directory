@@ -49,8 +49,8 @@ const Login = () => {
                                             value={values.email}
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-                                            errors={errors}
-                                            touched={touched}
+                                            error={errors.email}
+                                            touched={touched.email}
                                         />
                                         <TextInput
                                             label="Password"
@@ -59,8 +59,8 @@ const Login = () => {
                                             value={values.password}
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-                                            errors={errors}
-                                            touched={touched}
+                                            error={errors.password}
+                                            touched={touched.password}
                                         />
                                         <CustomButton
                                             type="submit"
