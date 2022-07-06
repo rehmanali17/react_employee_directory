@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Typography, Stack, Button } from "@mui/material";
+import { Grid, Typography, Stack } from "@mui/material";
 import TextInput from "components/TextInput";
 import CustomButton from "components/Button";
 import Hero from "components/Hero";
@@ -53,6 +53,7 @@ const PasswordRecovery = () => {
                                         />
                                         <CustomButton
                                             type="submit"
+                                            variant="contained"
                                             displayText="Reset My Password"
                                         />
                                     </Stack>
@@ -68,14 +69,13 @@ const PasswordRecovery = () => {
                                 mt: "2rem",
                             }}
                         >
-                            <Button
+                            <CustomButton
                                 variant="text"
-                                sx={{
+                                styles={{
                                     color: "primary.main",
                                 }}
-                            >
-                                Back to login
-                            </Button>
+                                displayText="Back to Login"
+                            />
                         </Grid>
                     </Link>
                 </Stack>

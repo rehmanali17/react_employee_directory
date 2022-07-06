@@ -6,6 +6,8 @@ import UserListing from "views/dashboard/UserListing";
 import { createTheme } from "@mui/material";
 import { ThemeProvider } from "@mui/material";
 import { Routes, Route } from "react-router-dom";
+import { Provider } from "react-redux";
+import store from "store";
 
 const theme = createTheme({
     palette: {
@@ -17,17 +19,19 @@ const theme = createTheme({
 
 function App() {
     return (
-        <ThemeProvider theme={theme}>
-            <Routes>
-                <Route path="/" element={<UserListing />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<Regisration />} />
-                <Route
-                    path="/recover-password"
-                    element={<PasswordRecovery />}
-                />
-            </Routes>
-        </ThemeProvider>
+        <Provider store={store}>
+            <ThemeProvider theme={theme}>
+                <Routes>
+                    <Route path="/" element={<Login />} />
+                    <Route path="/signup" element={<Regisration />} />
+                    <Route
+                        path="/recover-password"
+                        element={<PasswordRecovery />}
+                    />
+                    <Route path="/users" element={<UserListing />} />
+                </Routes>
+            </ThemeProvider>
+        </Provider>
     );
 }
 

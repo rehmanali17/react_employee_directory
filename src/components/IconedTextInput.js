@@ -1,6 +1,8 @@
 import React from "react";
 import { TextField } from "@mui/material";
 // import PropTypes from "prop-types";
+import SearchIcon from "@mui/icons-material/Search";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 
 const IconedTextInput = () => {
     return (
@@ -8,11 +10,15 @@ const IconedTextInput = () => {
             fullWidth
             sx={{
                 "& .MuiInputBase-input": {
-                    p: ".75rem",
+                    p: ".5rem",
                     color: "#6D7382",
                     fontSize: "1rem",
                     borderColor: "#E5EBF0",
                 },
+            }}
+            InputProps={{
+                startAdornment: <SearchIcon />,
+                endAdornment: <FormatListBulletedIcon />,
             }}
         />
     );

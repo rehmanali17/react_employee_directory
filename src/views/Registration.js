@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Typography, Stack, Button } from "@mui/material";
+import { Grid, Typography, Stack } from "@mui/material";
 import TextInput from "components/TextInput";
 import CustomButton from "components/Button";
 import Hero from "components/Hero";
@@ -84,6 +84,7 @@ const Regisration = () => {
                                             touched={touched.confirmPassword}
                                         />
                                         <CustomButton
+                                            variant="contained"
                                             type="submit"
                                             displayText="Signup"
                                         />
@@ -104,14 +105,13 @@ const Regisration = () => {
                             Already have an account?
                         </Typography>
                         <Link to="/" style={{ textDecoration: "none" }}>
-                            <Button
+                            <CustomButton
                                 variant="text"
-                                sx={{
+                                styles={{
                                     color: "primary.main",
                                 }}
-                            >
-                                Login
-                            </Button>
+                                displayText="Login"
+                            />
                         </Link>
                     </Grid>
                 </Stack>

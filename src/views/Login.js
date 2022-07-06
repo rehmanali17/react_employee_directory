@@ -1,20 +1,25 @@
 import React from "react";
-import { Grid, Typography, Stack, Button } from "@mui/material";
+import { Grid, Typography, Stack, CircularProgress } from "@mui/material";
 import TextInput from "components/TextInput";
 import CustomButton from "components/Button";
 import Hero from "components/Hero";
 import { Link } from "react-router-dom";
 import { Formik } from "formik";
 import { loginSchema } from "schema/login";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "store/authSlice";
 
 const Login = () => {
+    const dispatch = useDispatch();
+    const { requestError, inProgress } = useSelector(state => state.auth);
+
     const initialValues = {
         email: "",
         password: "",
     };
 
-    const handleFormSubmit = values => {
-        alert(JSON.stringify(values, null, 2));
+    const handleFormSubmit = async values => {
+        await dispatch(login(values));
     };
 
     return (
@@ -63,14 +68,32 @@ const Login = () => {
                                             touched={touched.password}
                                         />
                                         <CustomButton
+                                            variant="contained"
                                             type="submit"
                                             displayText="Login"
+                                            isDisabled={inProgress}
+                                            icon={
+                                                inProgress ? (
+                                                    <CircularProgress
+                                                        sx={{
+                                                            width: "1.25rem !important",
+                                                            height: "1.25rem !important",
+                                                            mr: "1rem",
+                                                        }}
+                                                    />
+                                                ) : null
+                                            }
                                         />
                                     </Stack>
                                 </form>
                             );
                         }}
                     </Formik>
+                    {requestError.isError && (
+                        <Typography sx={{ textAlign: "center", color: "red" }}>
+                            {requestError.message}
+                        </Typography>
+                    )}
                     <Grid
                         sx={{
                             display: "flex",
@@ -95,14 +118,13 @@ const Login = () => {
                                     textDecoration: "none",
                                 }}
                             >
-                                <Button
+                                <CustomButton
                                     variant="text"
-                                    sx={{
+                                    styles={{
                                         color: "primary.main",
                                     }}
-                                >
-                                    Signup
-                                </Button>
+                                    displayText="Signup"
+                                />
                             </Link>
                         </Grid>
                         <Grid>
@@ -112,14 +134,13 @@ const Login = () => {
                                     textDecoration: "none",
                                 }}
                             >
-                                <Button
+                                <CustomButton
                                     variant="text"
-                                    sx={{
+                                    styles={{
                                         color: "red",
                                     }}
-                                >
-                                    Forgot password?
-                                </Button>
+                                    displayText="Forgot password?"
+                                />
                             </Link>
                         </Grid>
                     </Grid>

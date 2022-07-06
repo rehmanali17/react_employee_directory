@@ -10,8 +10,11 @@ const CustomButton = props => {
                 disableFocusRipple
                 disableRipple
                 fullWidth
-                sx={{ bgcolor: "primary.main" }}
-                variant="contained"
+                variant={props.variant}
+                startIcon={props.icon}
+                sx={props.styles}
+                onClick={props.onClick}
+                disabled={props.isDisabled}
             >
                 {props.displayText}
             </Button>
@@ -20,8 +23,13 @@ const CustomButton = props => {
 };
 
 CustomButton.propTypes = {
-    displayText: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
+    displayText: PropTypes.string,
+    type: PropTypes.string,
+    variant: PropTypes.string,
+    icon: PropTypes.element,
+    styles: PropTypes.object,
+    onClick: PropTypes.func,
+    isDisabled: PropTypes.bool,
 };
 
 export default CustomButton;

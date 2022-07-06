@@ -40,14 +40,14 @@ const TextInput = props => {
 };
 
 TextInput.propTypes = {
-    label: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
-    onChange: PropTypes.func.isRequired,
-    onBlur: PropTypes.func.isRequired,
-    error: PropTypes.string.isRequired,
-    touched: PropTypes.bool.isRequired,
+    label: PropTypes.string,
+    name: PropTypes.string,
+    type: PropTypes.string,
+    value: PropTypes.string,
+    onChange: PropTypes.func,
+    onBlur: PropTypes.func,
+    error: PropTypes.string,
+    touched: PropTypes.bool,
 };
 
 export default TextInput;
