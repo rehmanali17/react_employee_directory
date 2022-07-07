@@ -8,6 +8,7 @@ import { ThemeProvider } from "@mui/material";
 import { Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "store";
+import ProtectedRoutes from "components/ProtectedRoutes";
 
 const theme = createTheme({
     palette: {
@@ -22,13 +23,15 @@ function App() {
         <Provider store={store}>
             <ThemeProvider theme={theme}>
                 <Routes>
-                    <Route path="/" element={<Login />} />
-                    <Route path="/signup" element={<Regisration />} />
+                    <Route index element={<Login />} />
+                    <Route path="signup" element={<Regisration />} />
                     <Route
-                        path="/recover-password"
+                        path="recover-password"
                         element={<PasswordRecovery />}
                     />
-                    <Route path="/users" element={<UserListing />} />
+                    <Route path="home" element={<ProtectedRoutes />}>
+                        <Route index element={<UserListing />} />
+                    </Route>
                 </Routes>
             </ThemeProvider>
         </Provider>

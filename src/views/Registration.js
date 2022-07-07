@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Grid, Typography, Stack } from "@mui/material";
 import TextInput from "components/TextInput";
 import CustomButton from "components/Button";
@@ -6,8 +6,10 @@ import Hero from "components/Hero";
 import { Link } from "react-router-dom";
 import { Formik } from "formik";
 import { registrationSchema } from "schema/registration";
+import { useLocation } from "react-router-dom";
 
 const Regisration = () => {
+    const location = useLocation();
     const initialValues = {
         name: "",
         companyName: "",
@@ -18,6 +20,16 @@ const Regisration = () => {
     const handleFormSubmit = values => {
         alert(JSON.stringify(values, null, 2));
     };
+
+    useEffect(() => {
+        console.log(
+            location.hash.split("&").reduce(function (res, item) {
+                var parts = item.split("=");
+                res[parts[0]] = parts[1];
+                return res;
+            }, {})
+        );
+    });
 
     return (
         <Grid container sx={{ display: "flex", height: "100vh" }}>

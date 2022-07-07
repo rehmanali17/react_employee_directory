@@ -1,11 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { supabase } from "config/supabase";
 
+const user = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : null;
+
 // Slice
 const slice = createSlice({
     name: "auth",
     initialState: {
-        user: null,
+        user,
         requestError: {
             isError: false,
             message: "",
@@ -14,29 +18,21 @@ const slice = createSlice({
     },
     reducers: {
         loginSuccess: (state, action) => {
-            return {
-                ...state,
-                user: action.payload,
-                requestError: {
-                    isError: false,
-                    message: "",
-                },
-                inProgress: false,
+            state.user = action.payload;
+            state.requestError = {
+                isError: false,
+                message: "",
             };
+            state.inProgress = false;
+            localStorage.setItem("user", JSON.stringify(state.user));
         },
         loginFailed: (state, action) => {
-            return {
-                ...state,
-                user: null,
-                requestError: action.payload,
-                inProgress: false,
-            };
+            state.user = null;
+            state.requestError = action.payload;
+            state.inProgress = false;
         },
         requestInitiated: state => {
-            return {
-                ...state,
-                inProgress: true,
-            };
+            state.inProgress = true;
         },
     },
 });
@@ -49,7 +45,7 @@ const { loginSuccess, loginFailed, requestInitiated } = slice.actions;
 export const login = values => async dispatch => {
     try {
         dispatch(requestInitiated());
-        let { data: user, error } = await supabase.auth.signIn(values);
+        const { data: user, error } = await supabase.auth.signIn(values);
         if (error) {
             dispatch(loginFailed({ isError: true, message: error.message }));
         } else {

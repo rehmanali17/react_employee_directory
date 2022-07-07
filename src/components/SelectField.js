@@ -8,6 +8,8 @@ const SelectField = props => {
             select
             value={props.value}
             onChange={props.onChange}
+            onBlur={props.onBlur}
+            name={props.name}
             sx={{
                 "& .MuiInputBase-input": {
                     p: ".25rem .75rem",
@@ -29,8 +31,10 @@ const SelectField = props => {
 
 SelectField.propTypes = {
     options: PropTypes.array.isRequired,
+    name: PropTypes.string,
     value: PropTypes.string,
     onChange: PropTypes.func,
+    onBlur: PropTypes.func,
     styles: PropTypes.object,
 };
 

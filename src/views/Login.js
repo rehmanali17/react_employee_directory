@@ -1,26 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Grid, Typography, Stack, CircularProgress } from "@mui/material";
 import TextInput from "components/TextInput";
 import CustomButton from "components/Button";
 import Hero from "components/Hero";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Formik } from "formik";
 import { loginSchema } from "schema/login";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "store/authSlice";
+import AlertMessage from "components/Alert";
 
 const Login = () => {
     const dispatch = useDispatch();
-    const { requestError, inProgress } = useSelector(state => state.auth);
+    const navigate = useNavigate();
+    const { requestError, inProgress, user } = useSelector(state => state.auth);
 
     const initialValues = {
         email: "",
         password: "",
     };
 
-    const handleFormSubmit = async values => {
-        await dispatch(login(values));
+    const handleFormSubmit = values => {
+        dispatch(login(values));
     };
+
+    useEffect(() => {
+        if (user) {
+            navigate("/home");
+        }
+    }, [user]);
 
     return (
         <Grid container sx={{ display: "flex", height: "100vh" }}>
@@ -90,9 +98,10 @@ const Login = () => {
                         }}
                     </Formik>
                     {requestError.isError && (
-                        <Typography sx={{ textAlign: "center", color: "red" }}>
-                            {requestError.message}
-                        </Typography>
+                        <AlertMessage
+                            severity="error"
+                            message={requestError.message}
+                        />
                     )}
                     <Grid
                         sx={{
