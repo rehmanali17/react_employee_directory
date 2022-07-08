@@ -102,7 +102,6 @@ export const addUser = values => async dispatch => {
         const { data: user, error } = await supabase.auth.api.inviteUserByEmail(
             values.email,
             {
-                redirectTo: `${process.env.REACT_APP_URL}/signup`,
                 data: { role: values.role },
             }
         );
