@@ -1,15 +1,22 @@
 import React, { useEffect } from "react";
-import { Grid, Typography, Stack } from "@mui/material";
+import { Grid, Typography, Stack, CircularProgress } from "@mui/material";
 import TextInput from "components/TextInput";
 import CustomButton from "components/Button";
 import Hero from "components/Hero";
 import { Link } from "react-router-dom";
 import { Formik } from "formik";
 import { registrationSchema } from "schema/registration";
-import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { signup } from "store/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import AlertMessage from "components/Alert";
 
 const Regisration = () => {
-    const location = useLocation();
+    // const location = useLocation();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { requestError, inProgress, user } = useSelector(state => state.auth);
+
     const initialValues = {
         name: "",
         companyName: "",
@@ -17,19 +24,18 @@ const Regisration = () => {
         confirmPassword: "",
     };
 
-    const handleFormSubmit = values => {
-        alert(JSON.stringify(values, null, 2));
+    const handleFormSubmit = async values => {
+        dispatch(signup(values));
     };
 
     useEffect(() => {
-        console.log(
-            location.hash.split("&").reduce(function (res, item) {
-                var parts = item.split("=");
-                res[parts[0]] = parts[1];
-                return res;
-            }, {})
-        );
-    });
+        if (!location.hash || location.hash.includes("error_code")) {
+            navigate("/");
+        }
+        if (user) {
+            navigate("/home");
+        }
+    }, [user]);
 
     return (
         <Grid container sx={{ display: "flex", height: "100vh" }}>
@@ -99,12 +105,34 @@ const Regisration = () => {
                                             variant="contained"
                                             type="submit"
                                             displayText="Signup"
+                                            isDisabled={inProgress}
+                                            icon={
+                                                inProgress ? (
+                                                    <CircularProgress
+                                                        sx={{
+                                                            width: "1.25rem !important",
+                                                            height: "1.25rem !important",
+                                                            mr: "1rem",
+                                                        }}
+                                                    />
+                                                ) : null
+                                            }
                                         />
                                     </Stack>
                                 </form>
                             );
                         }}
                     </Formik>
+                    {requestError.isError && (
+                        <AlertMessage
+                            severity={"error"}
+                            message={requestError.message}
+                            styles={{
+                                p: "0 .5rem !important",
+                                boxSizing: "border-box",
+                            }}
+                        />
+                    )}
                     <Grid
                         sx={{
                             display: "flex",

@@ -101,7 +101,10 @@ export const addUser = values => async dispatch => {
         dispatch(addUserRequestInitiated());
         const { data: user, error } = await supabase.auth.api.inviteUserByEmail(
             values.email,
-            { redirectTo: `${process.env.REACT_APP_URL}/signup` }
+            {
+                redirectTo: `${process.env.REACT_APP_URL}/signup`,
+                data: { role: values.role },
+            }
         );
         setTimeout(() => {
             dispatch(dismissAlert());

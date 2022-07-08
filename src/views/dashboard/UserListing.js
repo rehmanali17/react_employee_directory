@@ -14,10 +14,10 @@ import {
     CircularProgress,
 } from "@mui/material";
 import IconedTextInput from "components/IconedTextInput";
-import SelectField from "components/SelectField";
+// import SelectField from "components/SelectField";
 import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
-import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
-import ArrowForwardOutlinedIcon from "@mui/icons-material/ArrowForwardOutlined";
+// import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
+// import ArrowForwardOutlinedIcon from "@mui/icons-material/ArrowForwardOutlined";
 import CustomButton from "components/Button";
 import DialogBox from "components/DialogBox";
 import { fetchUsers } from "store/userSlice";
@@ -30,14 +30,14 @@ const UserListing = () => {
         state => state.user
     );
 
-    const [rowCount, setRowCount] = useState(25);
+    // const [rowCount, setRowCount] = useState(25);
     const [isOpenedDialogBox, setOpenDialogBox] = useState(false);
     const [role, setRole] = useState("ADMIN");
 
-    const handleRowCountChange = event => {
-        const { value } = event.target;
-        setRowCount(value);
-    };
+    // const handleRowCountChange = event => {
+    //     const { value } = event.target;
+    //     setRowCount(value);
+    // };
 
     const handleRoleChange = event => {
         const { value } = event.target;
@@ -56,7 +56,7 @@ const UserListing = () => {
         dispatch(fetchUsers());
     }, []);
 
-    const selectFieldOptions = ["25", "50", "100"];
+    // const selectFieldOptions = ["25", "50", "100"];
     const userRolesOptions = [
         "ADMIN",
         "MANAGER",
@@ -146,7 +146,7 @@ const UserListing = () => {
                         >
                             <IconedTextInput />
                         </Grid>
-                        {requestError.isError ? (
+                        {requestError.isError || !users.length ? (
                             <Grid
                                 sx={{
                                     width: "100vw",
@@ -158,7 +158,11 @@ const UserListing = () => {
                             >
                                 <AlertMessage
                                     severity="error"
-                                    message={requestError.message}
+                                    message={
+                                        requestError.isError
+                                            ? requestError.message
+                                            : "No user exists in the records"
+                                    }
                                 />
                             </Grid>
                         ) : (
@@ -202,8 +206,9 @@ const UserListing = () => {
                                                             component="th"
                                                             scope="row"
                                                         >
-                                                            {user.name ||
-                                                                "Rehman Ali"}
+                                                            {user[
+                                                                "user_metadata"
+                                                            ]["name"] || ""}
                                                         </TableCell>
                                                         <TableCell align="center">
                                                             {user.email}
@@ -212,9 +217,13 @@ const UserListing = () => {
                                                             width="40%"
                                                             align="center"
                                                         >
-                                                            {user.role}
+                                                            {
+                                                                user[
+                                                                    "user_metadata"
+                                                                ]["role"]
+                                                            }
                                                         </TableCell>
-                                                        <TableCell align="right">
+                                                        <TableCell align="center">
                                                             <Box
                                                                 sx={{
                                                                     border: "1px solid #E5E7F1",
@@ -225,7 +234,9 @@ const UserListing = () => {
                                                                 }}
                                                                 component="div"
                                                             >
-                                                                Active
+                                                                {user.email_confirmed_at
+                                                                    ? "Active"
+                                                                    : "Pending Request"}
                                                             </Box>
                                                         </TableCell>
                                                         <TableCell align="center">
@@ -237,7 +248,7 @@ const UserListing = () => {
                                         </Table>
                                     </TableContainer>
                                 </Grid>
-                                <Grid
+                                {/* <Grid
                                     sx={{
                                         height: "fit-content",
                                         width: "100%",
@@ -280,7 +291,7 @@ const UserListing = () => {
                                             }}
                                         />
                                     </Grid>
-                                </Grid>
+                                </Grid> */}
                             </>
                         )}
                     </Grid>
