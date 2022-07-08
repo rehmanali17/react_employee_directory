@@ -102,7 +102,7 @@ export const addUser = values => async dispatch => {
         const { data: user, error } = await supabase.auth.api.inviteUserByEmail(
             values.email,
             {
-                redirectTo: `https://62c81a9d6fe4a50008fa5dc2--mellifluous-sfogliatella-8718e5.netlify.app/signup`,
+                redirectTo: `${process.env.REACT_APP_URL}/signup`,
                 data: { role: values.role },
             }
         );
