@@ -99,8 +99,12 @@ const Login = () => {
                     </Formik>
                     {requestError.isError && (
                         <AlertMessage
-                            severity="error"
+                            severity={"error"}
                             message={requestError.message}
+                            styles={{
+                                p: "0 .5rem !important",
+                                boxSizing: "border-box",
+                            }}
                         />
                     )}
                     <Grid
