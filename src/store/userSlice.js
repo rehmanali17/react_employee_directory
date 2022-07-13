@@ -39,15 +39,27 @@ const slice = createSlice({
             ...state,
             isAddingUser: true,
         }),
-        addUserSuccess: (state, action) => ({
-            ...state,
-            users: [...state.users, action.payload],
-            alert: {
-                type: "success",
-                message: "Invite sent successfully",
-            },
-            isAddingUser: false,
-        }),
+        addUserSuccess: (state, action) => {
+            let userExists = false;
+            for (const user of state.users) {
+                if (user.email === action.payload.email) {
+                    userExists = true;
+                    break;
+                }
+            }
+
+            return {
+                ...state,
+                users: !userExists
+                    ? [...state.users, action.payload]
+                    : state.users,
+                alert: {
+                    type: "success",
+                    message: "Invite sent successfully",
+                },
+                isAddingUser: false,
+            };
+        },
         addUserError: (state, action) => ({
             ...state,
             alert: {

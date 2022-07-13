@@ -29,6 +29,7 @@ const UserListing = () => {
     const { inProgress, users, requestError } = useSelector(
         state => state.user
     );
+    const { user } = useSelector(state => state.auth);
 
     // const [rowCount, setRowCount] = useState(25);
     const [isOpenedDialogBox, setOpenDialogBox] = useState(false);
@@ -113,26 +114,30 @@ const UserListing = () => {
                                 <Typography variant="h2" component="p">
                                     Users
                                 </Typography>
-                                <Typography>{users.length || 0}</Typography>
+                                <Typography>
+                                    Total Members: {users.length || 0}
+                                </Typography>
                             </Stack>
-                            <Grid
-                                sx={{
-                                    position: "relative",
-                                    top: "-1rem",
-                                }}
-                            >
-                                <CustomButton
-                                    type="button"
-                                    displayText="Invite User"
-                                    icon={<AddCircleOutlinedIcon />}
-                                    variant="contained"
-                                    styles={{
-                                        cursor: "pointer",
-                                        bgcolor: "primary.main",
+                            {user.user.user_metadata.role === "SUPER_ADMIN" && (
+                                <Grid
+                                    sx={{
+                                        position: "relative",
+                                        top: "-1rem",
                                     }}
-                                    onClick={openDialogBox}
-                                />
-                            </Grid>
+                                >
+                                    <CustomButton
+                                        type="button"
+                                        displayText="Invite User"
+                                        icon={<AddCircleOutlinedIcon />}
+                                        variant="contained"
+                                        styles={{
+                                            cursor: "pointer",
+                                            bgcolor: "primary.main",
+                                        }}
+                                        onClick={openDialogBox}
+                                    />
+                                </Grid>
+                            )}
                         </Grid>
                         <Grid
                             sx={{
