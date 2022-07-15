@@ -211,9 +211,9 @@ const UserListing = () => {
                                                             component="th"
                                                             scope="row"
                                                         >
-                                                            {/* {user[
+                                                            {user[
                                                                 "user_metadata"
-                                                            ]["name"] || ""} */}
+                                                            ]["name"] || ""}
                                                         </TableCell>
                                                         <TableCell align="center">
                                                             {user.email}
