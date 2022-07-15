@@ -64,6 +64,7 @@ const Login = () => {
                                             onBlur={handleBlur}
                                             error={errors.email}
                                             touched={touched.email}
+                                            focus={true}
                                         />
                                         <TextInput
                                             label="Password"

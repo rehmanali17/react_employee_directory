@@ -7,6 +7,7 @@ const TextInput = props => {
         <Grid sx={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
             <InputLabel>{props.label}</InputLabel>
             <TextField
+                autoFocus={props.focus}
                 fullWidth
                 name={props.name}
                 type={props.type}
@@ -48,6 +49,7 @@ TextInput.propTypes = {
     onBlur: PropTypes.func,
     error: PropTypes.string,
     touched: PropTypes.bool,
+    focus: PropTypes.bool,
 };
 
 export default TextInput;

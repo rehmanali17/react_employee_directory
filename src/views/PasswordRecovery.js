@@ -50,6 +50,7 @@ const PasswordRecovery = () => {
                                             onBlur={handleBlur}
                                             error={errors.email}
                                             touched={touched.email}
+                                            focus={true}
                                         />
                                         <CustomButton
                                             type="submit"

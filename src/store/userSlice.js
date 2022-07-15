@@ -40,22 +40,28 @@ const slice = createSlice({
             isAddingUser: true,
         }),
         addUserSuccess: (state, action) => {
+            let userPassed = false;
             let userExists = false;
-            for (const user of state.users) {
-                if (user.email === action.payload.email) {
-                    userExists = true;
-                    break;
+
+            if (action.payload.user) {
+                userPassed = true;
+                for (const user of state.users) {
+                    if (user.email === action.payload.user.email) {
+                        userExists = true;
+                        break;
+                    }
                 }
             }
 
             return {
                 ...state,
-                users: !userExists
-                    ? [...state.users, action.payload]
-                    : state.users,
+                users:
+                    !userExists && userPassed
+                        ? [...state.users, action.payload.user]
+                        : state.users,
                 alert: {
                     type: "success",
-                    message: "Invite sent successfully",
+                    message: action.payload.message,
                 },
                 isAddingUser: false,
             };
@@ -97,11 +103,11 @@ const {
 export const fetchUsers = () => async dispatch => {
     try {
         dispatch(requestInitiated());
-        const { data: users, error } = await supabase.auth.api.listUsers();
-        if (error) {
-            dispatch(fetchError({ isError: true, message: error.message }));
+        const { data } = await supabase.functions.invoke("list-users");
+        if (data.status === 200) {
+            dispatch(fetchSuccess(data.users));
         } else {
-            dispatch(fetchSuccess(users));
+            dispatch(fetchError({ isError: true, message: data.message }));
         }
     } catch (e) {
         dispatch(fetchError({ isError: true, message: e.message }));
@@ -111,20 +117,42 @@ export const fetchUsers = () => async dispatch => {
 export const addUser = values => async dispatch => {
     try {
         dispatch(addUserRequestInitiated());
-        const { data: user, error } = await supabase.auth.api.inviteUserByEmail(
-            values.email,
-            {
-                redirectTo: `${process.env.REACT_APP_URL}/signup`,
-                data: { role: values.role },
+        const { data } = await supabase.functions.invoke("invite-user", {
+            body: JSON.stringify({
+                email: values.email,
+                role: values.role,
+                redirectURi: `${process.env.REACT_APP_URL}/signup`,
+            }),
+        });
+        if (data.status === 200) {
+            dispatch(
+                addUserSuccess({
+                    user: data.user,
+                    message: "Invite sent successfully",
+                })
+            );
+            setTimeout(() => {
+                dispatch(dismissAlert());
+            }, 2500);
+        } else if (data.status === 422) {
+            const { error } = await supabase.auth.api.resetPasswordForEmail(
+                values.email,
+                {
+                    redirectTo: `${process.env.REACT_APP_URL}/signup`,
+                }
+            );
+            if (error) {
+                dispatch(addUserError(error.message));
+            } else {
+                dispatch(
+                    addUserSuccess({ message: "Invite sent successfully" })
+                );
+                setTimeout(() => {
+                    dispatch(dismissAlert());
+                }, 2500);
             }
-        );
-        setTimeout(() => {
-            dispatch(dismissAlert());
-        }, 1500);
-        if (error) {
-            dispatch(addUserError(error.message));
-        } else if (user) {
-            dispatch(addUserSuccess(user));
+        } else {
+            dispatch(addUserError(data.message));
         }
     } catch (e) {
         dispatch(addUserError(e.message));

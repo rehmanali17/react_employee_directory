@@ -118,7 +118,7 @@ const UserListing = () => {
                                     Total Members: {users.length || 0}
                                 </Typography>
                             </Stack>
-                            {user.user.user_metadata.role === "SUPER_ADMIN" && (
+                            {user.user_metadata.role === "SUPER_ADMIN" && (
                                 <Grid
                                     sx={{
                                         position: "relative",
@@ -211,9 +211,9 @@ const UserListing = () => {
                                                             component="th"
                                                             scope="row"
                                                         >
-                                                            {user[
+                                                            {/* {user[
                                                                 "user_metadata"
-                                                            ]["name"] || ""}
+                                                            ]["name"] || ""} */}
                                                         </TableCell>
                                                         <TableCell align="center">
                                                             {user.email}

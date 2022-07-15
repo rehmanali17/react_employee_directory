@@ -68,7 +68,7 @@ const CustomAppBar = () => {
                         icon={<PersonIcon />}
                         onClick={handleClick}
                         color="inherit"
-                        displayText={user.user.email}
+                        displayText={user.email}
                         styles={{
                             width: "fit-content",
                             color: "white",

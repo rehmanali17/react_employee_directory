@@ -9,10 +9,11 @@ import { registrationSchema } from "schema/registration";
 import { useNavigate } from "react-router-dom";
 import { signup } from "store/authSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router";
 import AlertMessage from "components/Alert";
 
 const Regisration = () => {
-    // const location = useLocation();
+    const location = useLocation();
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { requestError, inProgress, user } = useSelector(state => state.auth);
@@ -70,6 +71,7 @@ const Regisration = () => {
                                             onBlur={handleBlur}
                                             error={errors.name}
                                             touched={touched.name}
+                                            focus={true}
                                         />
                                         <TextInput
                                             label="Company Name"

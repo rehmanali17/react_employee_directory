@@ -21,7 +21,7 @@ const slice = createSlice({
             state.inProgress = true;
         },
         loginSuccess: (state, action) => {
-            state.user = action.payload;
+            state.user = action.payload.user;
             state.requestError = {
                 isError: false,
                 message: "",
