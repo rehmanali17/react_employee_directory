@@ -17,6 +17,7 @@ const TextInput = props => {
                         color: "#6D7382",
                         fontSize: "1rem",
                         borderColor: "#E5EBF0",
+                        ...props.styles,
                     },
                 }}
                 variant="outlined"
@@ -32,9 +33,10 @@ const TextInput = props => {
                     fontSize: ".75rem",
                     fontWeight: "bold",
                     color: "red",
+                    opacity: props.error && props.touched ? "1" : "0",
                 }}
             >
-                {props.error && props.touched ? props.error : ""}
+                {props.error}
             </Typography>
         </Grid>
     );
@@ -50,6 +52,7 @@ TextInput.propTypes = {
     error: PropTypes.string,
     touched: PropTypes.bool,
     focus: PropTypes.bool,
+    styles: PropTypes.object,
 };
 
 export default TextInput;
