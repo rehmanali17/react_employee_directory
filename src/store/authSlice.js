@@ -44,6 +44,19 @@ const slice = createSlice({
             state.requestError = action.payload;
             state.inProgress = false;
         },
+        resetPasswordSuccess: (state, action) => {
+            state.user = action.payload;
+            state.requestError = {
+                isError: false,
+                message: "",
+            };
+            state.inProgress = false;
+        },
+        resetPasswordFailed: (state, action) => {
+            state.user = null;
+            state.requestError = action.payload;
+            state.inProgress = false;
+        },
         logout: state => {
             return {
                 ...state,
@@ -67,6 +80,8 @@ const {
     loginFailed,
     signupSuccess,
     signupFailed,
+    resetPasswordSuccess,
+    resetPasswordFailed,
     logout,
 } = slice.actions;
 
@@ -101,13 +116,31 @@ export const signup = values => async dispatch => {
     }
 };
 
+export const resetPassword = values => async dispatch => {
+    try {
+        dispatch(requestInitiated());
+        const { user, error } = await supabase.auth.update({
+            password: values.password,
+        });
+        if (error) {
+            dispatch(
+                resetPasswordFailed({ isError: true, message: error.message })
+            );
+        } else {
+            dispatch(resetPasswordSuccess(user));
+        }
+    } catch (e) {
+        dispatch(resetPasswordFailed({ isError: true, message: e.message }));
+    }
+};
+
 export const logoutInitiated = () => async dispatch => {
     try {
         const { error } = await supabase.auth.signOut();
         if (!error) {
             dispatch(logout());
-        }else{
-            throw new Error('Unable to logout');
+        } else {
+            throw new Error("Unable to logout");
         }
     } catch (error) {
         throw new Error(error.message);

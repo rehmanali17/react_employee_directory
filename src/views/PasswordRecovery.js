@@ -1,11 +1,13 @@
-import React from "react";
-import { Grid, Typography, Stack } from "@mui/material";
+import React, { useState } from "react";
+import { Grid, Typography, Stack, CircularProgress } from "@mui/material";
 import TextInput from "components/TextInput";
 import CustomButton from "components/Button";
 import Hero from "components/Hero";
 import { Link } from "react-router-dom";
 import { Formik } from "formik";
 import { passwordRecoverySchema } from "schema/password_recovery";
+import { supabase } from "config/supabase";
+import AlertMessage from "components/Alert";
 
 const styles = {
     container: { display: "flex", height: "100vh" },
@@ -25,15 +27,50 @@ const styles = {
     textPrimary: {
         color: "primary.main",
     },
+    loader: {
+        width: "1.25rem !important",
+        height: "1.25rem !important",
+        mr: "1rem",
+    },
+    alert: {
+        p: "0 .5rem !important",
+        boxSizing: "border-box",
+    },
 };
 
 const PasswordRecovery = () => {
+    const [inProgress, setInProgress] = useState(false);
+    const [alert, setAlert] = useState({
+        isSet: false,
+        type: "",
+        message: "",
+    });
     const initialValues = {
         email: "",
     };
 
-    const handleFormSubmit = values => {
-        alert(JSON.stringify(values, null, 2));
+    const handleFormSubmit = async values => {
+        setInProgress(true);
+        const { error } = await supabase.auth.api.resetPasswordForEmail(
+            values.email,
+            {
+                redirectTo: `${process.env.REACT_APP_URL}/reset-password`,
+            }
+        );
+        setInProgress(false);
+        if (error) {
+            setAlert({
+                isSet: true,
+                type: "error",
+                message: "Unable to send the email at the moment",
+            });
+        } else {
+            setAlert({
+                isSet: true,
+                type: "success",
+                message: "Reset password email has been sent successfully",
+            });
+        }
     };
 
     return (
@@ -73,10 +110,25 @@ const PasswordRecovery = () => {
                                             focus={true}
                                         />
                                         <CustomButton
-                                            type="submit"
                                             variant="contained"
-                                            displayText="Reset My Password"
+                                            type="submit"
+                                            displayText="Send Email"
+                                            isDisabled={inProgress}
+                                            icon={
+                                                inProgress ? (
+                                                    <CircularProgress
+                                                        sx={styles.loader}
+                                                    />
+                                                ) : null
+                                            }
                                         />
+                                        {alert.isSet && (
+                                            <AlertMessage
+                                                severity={alert.type}
+                                                message={alert.message}
+                                                styles={styles.alert}
+                                            />
+                                        )}
                                     </Stack>
                                 </form>
                             );

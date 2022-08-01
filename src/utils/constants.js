@@ -5,6 +5,7 @@ import PasswordRecovery from "views/PasswordRecovery";
 import UserListing from "views/dashboard/UserListing";
 import { Route } from "react-router-dom";
 import EditProfile from "views/dashboard/EditProfile";
+import ResetPassword from "views/ResetPassword";
 
 export const routes = {
     public: [
@@ -15,6 +16,7 @@ export const routes = {
             path="recover-password"
             element={<PasswordRecovery />}
         />,
+        <Route key={3} path="reset-password" element={<ResetPassword />} />,
     ],
     protected: [
         <Route key={0} index element={<UserListing />} />,
