@@ -17,6 +17,42 @@ import AlertMessage from "./Alert";
 import { addUser } from "store/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 
+const styles = {
+    dialogBox: {
+        "& .MuiDialog-container": {
+            "& .MuiPaper-root": {
+                width: "100%",
+                maxWidth: "25rem",
+                p: "1rem",
+            },
+        },
+    },
+    textCenter: {
+        textAlign: "center",
+    },
+    selectField: {
+        width: "100%",
+        mt: "1rem",
+    },
+    alert: {
+        p: "0 .5rem !important",
+        boxSizing: "border-box",
+    },
+    btn: {
+        width: "fit-content",
+        p: ".125rem .5rem",
+        cursor: "pointer",
+    },
+    mr1: {
+        mr: "1rem",
+    },
+    loader: {
+        width: "1.25rem !important",
+        height: "1.25rem !important",
+        p: "0 .5rem",
+    },
+};
+
 const DialogBox = props => {
     const dispatch = useDispatch();
     const { isAddingUser, alert } = useSelector(state => state.user);
@@ -40,19 +76,8 @@ const DialogBox = props => {
 
     return (
         <Grid>
-            <Dialog
-                sx={{
-                    "& .MuiDialog-container": {
-                        "& .MuiPaper-root": {
-                            width: "100%",
-                            maxWidth: "25rem",
-                            p: "1rem",
-                        },
-                    },
-                }}
-                open={props.open}
-            >
-                <DialogTitle sx={{ textAlign: "center" }}>
+            <Dialog sx={styles.dialogBox} open={props.open}>
+                <DialogTitle sx={styles.textCenter}>
                     Send New User Invitation
                 </DialogTitle>
                 <Formik
@@ -87,17 +112,14 @@ const DialogBox = props => {
                                         value={values.role}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        styles={{ width: "100%", mt: "1rem" }}
+                                        styles={styles.selectField}
                                         options={props.roles}
                                     />
                                     {alert.type && (
                                         <AlertMessage
                                             severity={alert.type}
                                             message={alert.message}
-                                            styles={{
-                                                p: "0 .5rem !important",
-                                                boxSizing: "border-box",
-                                            }}
+                                            styles={styles.alert}
                                         />
                                     )}
                                 </DialogContent>
@@ -105,11 +127,7 @@ const DialogBox = props => {
                                     <CustomButton
                                         type="button"
                                         variant="outlined"
-                                        styles={{
-                                            width: "fit-content",
-                                            p: ".125rem .5rem",
-                                            cursor: "pointer",
-                                        }}
+                                        styles={styles.btn}
                                         onClick={props.onCloseDialogBox}
                                         displayText="Cancel"
                                     />
@@ -117,21 +135,15 @@ const DialogBox = props => {
                                         type="submit"
                                         variant="outlined"
                                         styles={{
-                                            width: "fit-content",
-                                            p: ".125rem .5rem",
-                                            mr: "1rem",
-                                            cursor: "pointer",
+                                            ...styles.btn,
+                                            ...styles.mr1,
                                         }}
                                         displayText="Send"
                                         isDisabled={isAddingUser}
                                         icon={
                                             isAddingUser ? (
                                                 <CircularProgress
-                                                    sx={{
-                                                        width: "1.25rem !important",
-                                                        height: "1.25rem !important",
-                                                        p: "0 .5rem",
-                                                    }}
+                                                    sx={styles.loader}
                                                 />
                                             ) : null
                                         }

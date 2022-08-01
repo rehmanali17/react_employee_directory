@@ -10,8 +10,15 @@ import {
 import PropTypes from "prop-types";
 
 const CustomMenu = props => {
+    const styles = {
+        paper: { width: 320, maxWidth: "100%" },
+        textSecondary: {
+            color: "text.secondary",
+        },
+    };
+
     return (
-        <Paper sx={{ width: 320, maxWidth: "100%" }}>
+        <Paper sx={styles.paper}>
             <Menu
                 anchorEl={props.anchorElement}
                 onClose={props.onClose}
@@ -19,7 +26,7 @@ const CustomMenu = props => {
             >
                 <MenuItem>
                     <ListItemIcon>{props.menus.role.icon}</ListItemIcon>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" color={styles.textSecondary}>
                         {props.menus.role.title}
                     </Typography>
                 </MenuItem>
@@ -27,7 +34,10 @@ const CustomMenu = props => {
                 {props.menus.items.map(menu => (
                     <MenuItem onClick={menu.command} key={menu.text}>
                         <ListItemIcon>{menu.icon}</ListItemIcon>
-                        <Typography variant="body2" color="text.secondary">
+                        <Typography
+                            variant="body2"
+                            color={styles.textSecondary}
+                        >
                             {menu.text}
                         </Typography>
                     </MenuItem>

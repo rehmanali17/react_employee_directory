@@ -3,6 +3,17 @@ import { TextField, MenuItem } from "@mui/material";
 import PropTypes from "prop-types";
 
 const SelectField = props => {
+    const styles = {
+        selectField: {
+            "& .MuiInputBase-input": {
+                p: ".25rem .75rem",
+                color: "#6D7382",
+                fontSize: "1rem",
+                borderColor: "#E5EBF0",
+            },
+            ...props.styles,
+        },
+    };
     return (
         <TextField
             select
@@ -10,15 +21,7 @@ const SelectField = props => {
             onChange={props.onChange}
             onBlur={props.onBlur}
             name={props.name}
-            sx={{
-                "& .MuiInputBase-input": {
-                    p: ".25rem .75rem",
-                    color: "#6D7382",
-                    fontSize: "1rem",
-                    borderColor: "#E5EBF0",
-                },
-                ...props.styles,
-            }}
+            sx={styles.selectField}
         >
             {props.options.map((option, index) => (
                 <MenuItem value={option} key={index}>

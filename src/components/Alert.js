@@ -3,11 +3,12 @@ import { Alert } from "@mui/material";
 import PropTypes from "prop-types";
 
 const AlertMessage = props => {
+    const styles = {
+        alert: { mt: "1rem !important", width: "100%", ...props.styles },
+    };
+
     return (
-        <Alert
-            sx={{ mt: "1rem !important", width: "100%", ...props.styles }}
-            severity={props.severity}
-        >
+        <Alert sx={styles.alert} severity={props.severity}>
             {props.message}
         </Alert>
     );

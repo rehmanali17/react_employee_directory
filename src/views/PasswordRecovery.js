@@ -7,6 +7,26 @@ import { Link } from "react-router-dom";
 import { Formik } from "formik";
 import { passwordRecoverySchema } from "schema/password_recovery";
 
+const styles = {
+    container: { display: "flex", height: "100vh" },
+    formContainer: { width: "50vw", display: "grid", placeItems: "center" },
+    stack: {
+        width: "70%",
+    },
+    mb1: {
+        mb: "1rem",
+    },
+    textDecoration: { textDecoration: "none" },
+    btnContainer: {
+        display: "flex",
+        justifyContent: "center",
+        mt: "2rem",
+    },
+    textPrimary: {
+        color: "primary.main",
+    },
+};
+
 const PasswordRecovery = () => {
     const initialValues = {
         email: "",
@@ -17,11 +37,11 @@ const PasswordRecovery = () => {
     };
 
     return (
-        <Grid container sx={{ display: "flex", height: "100vh" }}>
+        <Grid container sx={styles.container}>
             <Hero />
-            <Grid sx={{ width: "50vw", display: "grid", placeItems: "center" }}>
-                <Stack spacing={2.5} width="70%">
-                    <Typography variant="h3" component="h6" mb="1rem">
+            <Grid sx={styles.formContainer}>
+                <Stack spacing={2.5} sx={styles.stack}>
+                    <Typography variant="h3" component="h6" sx={styles.mb1}>
                         Password Recovery
                     </Typography>
                     <Formik
@@ -40,7 +60,7 @@ const PasswordRecovery = () => {
                             } = formik;
                             return (
                                 <form onSubmit={handleSubmit}>
-                                    <Stack spacing={3}>
+                                    <Stack spacing={1.5}>
                                         <TextInput
                                             label="Email"
                                             name="email"
@@ -62,19 +82,11 @@ const PasswordRecovery = () => {
                             );
                         }}
                     </Formik>
-                    <Link to="/" style={{ textDecoration: "none" }}>
-                        <Grid
-                            sx={{
-                                display: "flex",
-                                justifyContent: "center",
-                                mt: "2rem",
-                            }}
-                        >
+                    <Link to="/" style={styles.textDecoration}>
+                        <Grid sx={styles.btnContainer}>
                             <CustomButton
                                 variant="text"
-                                styles={{
-                                    color: "primary.main",
-                                }}
+                                styles={styles.textPrimary}
                                 displayText="Back to Login"
                             />
                         </Grid>

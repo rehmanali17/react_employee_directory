@@ -4,18 +4,22 @@ import { TextField } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 
+const styles = {
+    textField: {
+        "& .MuiInputBase-input": {
+            p: ".5rem",
+            color: "#6D7382",
+            fontSize: "1rem",
+            borderColor: "#E5EBF0",
+        },
+    },
+};
+
 const IconedTextInput = () => {
     return (
         <TextField
             fullWidth
-            sx={{
-                "& .MuiInputBase-input": {
-                    p: ".5rem",
-                    color: "#6D7382",
-                    fontSize: "1rem",
-                    borderColor: "#E5EBF0",
-                },
-            }}
+            sx={styles.textField}
             InputProps={{
                 startAdornment: <SearchIcon />,
                 endAdornment: <FormatListBulletedIcon />,

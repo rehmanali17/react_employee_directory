@@ -24,6 +24,85 @@ import { fetchUsers } from "store/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import AlertMessage from "components/Alert";
 
+const styles = {
+    container: {
+        width: "100vw",
+        height: "100vh",
+        display: "grid",
+        placeItems: "center",
+    },
+    loader: {
+        width: "3rem !important",
+        height: "3rem !important",
+    },
+    usersCountContainer: {
+        width: "100vw",
+        boxSizing: "border-box",
+        p: "1rem 2rem",
+    },
+    totalUser: {
+        width: "100%",
+        height: "fit-content",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+    },
+    btnContainer: {
+        position: "relative",
+        top: "-1rem",
+    },
+    btn: {
+        cursor: "pointer",
+        bgcolor: "primary.main",
+    },
+    inputContainer: {
+        height: "fit-content",
+        width: "100%",
+        p: ".5rem 1.5rem",
+        m: "1rem 0 2rem",
+        bgcolor: "#FBFBFF",
+        borderRadius: "0.5rem",
+    },
+    alertContainer: {
+        width: "100vw",
+        height: "10vh",
+        display: "grid",
+        placeItems: "center",
+        p: "0 1rem",
+    },
+    usersListContainer: {
+        width: "100%",
+        height: "56vh",
+        overflow: "auto",
+    },
+    tableContainer: {
+        boxShadow: "none !important",
+    },
+    table: { minWidth: 650 },
+    tableRow: {
+        "&:last-child": {
+            border: "none !important",
+        },
+        cursor: "pointer",
+        "&:hover": {
+            bgcolor: "#EEF3FE",
+        },
+    },
+    textAlignment: {
+        textAlign: "center",
+    },
+    roleCell: {
+        width: "40%",
+        textAlign: "center",
+    },
+    statusIndicator: {
+        border: "1px solid #E5E7F1",
+        width: "fit-content",
+        p: ".25rem 1rem",
+        borderRadius: ".375rem",
+    },
+};
+
 const UserListing = () => {
     const dispatch = useDispatch();
     const { inProgress, users, requestError } = useSelector(
@@ -69,20 +148,8 @@ const UserListing = () => {
     return (
         <>
             {inProgress ? (
-                <Grid
-                    sx={{
-                        width: "100vw",
-                        height: "100vh",
-                        display: "grid",
-                        placeItems: "center",
-                    }}
-                >
-                    <CircularProgress
-                        sx={{
-                            width: "3rem !important",
-                            height: "3rem !important",
-                        }}
-                    />
+                <Grid sx={styles.container}>
+                    <CircularProgress sx={styles.loader} />
                 </Grid>
             ) : (
                 <>
@@ -93,23 +160,8 @@ const UserListing = () => {
                         roles={userRolesOptions}
                         open={isOpenedDialogBox}
                     />
-                    <Grid
-                        container
-                        sx={{
-                            width: "100vw",
-                            boxSizing: "border-box",
-                            p: "1rem 2rem",
-                        }}
-                    >
-                        <Grid
-                            sx={{
-                                width: "100%",
-                                height: "fit-content",
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                            }}
-                        >
+                    <Grid container sx={styles.userCountContainer}>
+                        <Grid sx={styles.totalUser}>
                             <Stack>
                                 <Typography variant="h2" component="p">
                                     Users
@@ -119,48 +171,23 @@ const UserListing = () => {
                                 </Typography>
                             </Stack>
                             {user.user_metadata.role === "SUPER_ADMIN" && (
-                                <Grid
-                                    sx={{
-                                        position: "relative",
-                                        top: "-1rem",
-                                    }}
-                                >
+                                <Grid sx={styles.btnContainer}>
                                     <CustomButton
                                         type="button"
                                         displayText="Invite User"
                                         icon={<AddCircleOutlinedIcon />}
                                         variant="contained"
-                                        styles={{
-                                            cursor: "pointer",
-                                            bgcolor: "primary.main",
-                                        }}
+                                        styles={styles.btn}
                                         onClick={openDialogBox}
                                     />
                                 </Grid>
                             )}
                         </Grid>
-                        <Grid
-                            sx={{
-                                height: "fit-content",
-                                width: "100%",
-                                p: ".5rem 1.5rem",
-                                m: "1rem 0 2rem",
-                                bgcolor: "#FBFBFF",
-                                borderRadius: "0.5rem",
-                            }}
-                        >
+                        <Grid sx={styles.inputContainer}>
                             <IconedTextInput />
                         </Grid>
                         {requestError.isError || !users.length ? (
-                            <Grid
-                                sx={{
-                                    width: "100vw",
-                                    height: "10vh",
-                                    display: "grid",
-                                    placeItems: "center",
-                                    p: "0 1rem",
-                                }}
-                            >
+                            <Grid sx={styles.alertContainer}>
                                 <AlertMessage
                                     severity="error"
                                     message={
@@ -172,37 +199,20 @@ const UserListing = () => {
                             </Grid>
                         ) : (
                             <>
-                                <Grid
-                                    sx={{
-                                        width: "100%",
-                                        height: "56vh",
-                                        overflow: "auto",
-                                    }}
-                                >
+                                <Grid sx={styles.usersListContainer}>
                                     <TableContainer
                                         component={Paper}
-                                        sx={{
-                                            boxShadow: "none !important",
-                                        }}
+                                        sx={styles.tableContainer}
                                     >
                                         <Table
-                                            sx={{ minWidth: 650 }}
+                                            sx={styles.table}
                                             aria-label="Users Listing table"
                                         >
                                             <TableBody>
                                                 {users.map(user => (
                                                     <TableRow
                                                         key={user.id}
-                                                        sx={{
-                                                            "&:last-child": {
-                                                                border: "none !important",
-                                                            },
-                                                            cursor: "pointer",
-                                                            "&:hover": {
-                                                                bgcolor:
-                                                                    "#EEF3FE",
-                                                            },
-                                                        }}
+                                                        sx={styles.tableRow}
                                                     >
                                                         <TableCell>
                                                             <Checkbox />
@@ -215,12 +225,15 @@ const UserListing = () => {
                                                                 "user_metadata"
                                                             ]["name"] || ""}
                                                         </TableCell>
-                                                        <TableCell align="center">
+                                                        <TableCell
+                                                            sx={
+                                                                styles.textAlignment
+                                                            }
+                                                        >
                                                             {user.email}
                                                         </TableCell>
                                                         <TableCell
-                                                            width="40%"
-                                                            align="center"
+                                                            sx={styles.roleCell}
                                                         >
                                                             {
                                                                 user[
@@ -228,15 +241,15 @@ const UserListing = () => {
                                                                 ]["role"]
                                                             }
                                                         </TableCell>
-                                                        <TableCell align="center">
+                                                        <TableCell
+                                                            sx={
+                                                                styles.textAlignment
+                                                            }
+                                                        >
                                                             <Box
-                                                                sx={{
-                                                                    border: "1px solid #E5E7F1",
-                                                                    width: "fit-content",
-                                                                    p: ".25rem 1rem",
-                                                                    borderRadius:
-                                                                        ".375rem",
-                                                                }}
+                                                                sx={
+                                                                    styles.statusIndicator
+                                                                }
                                                                 component="div"
                                                             >
                                                                 {user.email_confirmed_at
@@ -244,7 +257,11 @@ const UserListing = () => {
                                                                     : "Pending Request"}
                                                             </Box>
                                                         </TableCell>
-                                                        <TableCell align="center">
+                                                        <TableCell
+                                                            sx={
+                                                                styles.textAlignment
+                                                            }
+                                                        >
                                                             13 minutes ago
                                                         </TableCell>
                                                     </TableRow>

@@ -12,6 +12,39 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import AlertMessage from "components/Alert";
 
+const styles = {
+    container: { display: "flex", height: "100vh" },
+    formContainer: { width: "50vw", display: "grid", placeItems: "center" },
+    stack: { width: "70%" },
+    mb1: {
+        mb: "1rem",
+    },
+    loader: {
+        width: "1.25rem !important",
+        height: "1.25rem !important",
+        mr: "1rem",
+    },
+    alert: {
+        p: "0 .5rem !important",
+        boxSizing: "border-box",
+    },
+    linksContainer: {
+        display: "flex",
+        gap: ".5rem",
+        alignItems: "center",
+        marginTop: "1.5rem !important",
+    },
+    textColor: {
+        color: "#272C39",
+    },
+    textDecoration: {
+        textDecoration: "none",
+    },
+    textPrimary: {
+        color: "primary.main",
+    },
+};
+
 const Regisration = () => {
     const location = useLocation();
     const navigate = useNavigate();
@@ -39,10 +72,10 @@ const Regisration = () => {
     }, [user]);
 
     return (
-        <Grid container sx={{ display: "flex", height: "100vh" }}>
-            <Grid sx={{ width: "50vw", display: "grid", placeItems: "center" }}>
-                <Stack spacing={1.5} width="70%">
-                    <Typography variant="h2" component="h6" mb="1rem">
+        <Grid container sx={styles.container}>
+            <Grid sx={styles.formContainer}>
+                <Stack spacing={1.5} sx={styles.stack}>
+                    <Typography variant="h2" component="h6" sx={styles.mb1}>
                         Signup
                     </Typography>
                     <Formik
@@ -61,7 +94,7 @@ const Regisration = () => {
                             } = formik;
                             return (
                                 <form onSubmit={handleSubmit}>
-                                    <Stack spacing={3}>
+                                    <Stack spacing={1.5}>
                                         <TextInput
                                             label="Name"
                                             name="name"
@@ -111,11 +144,7 @@ const Regisration = () => {
                                             icon={
                                                 inProgress ? (
                                                     <CircularProgress
-                                                        sx={{
-                                                            width: "1.25rem !important",
-                                                            height: "1.25rem !important",
-                                                            mr: "1rem",
-                                                        }}
+                                                        sx={styles.loader}
                                                     />
                                                 ) : null
                                             }
@@ -129,29 +158,17 @@ const Regisration = () => {
                         <AlertMessage
                             severity={"error"}
                             message={requestError.message}
-                            styles={{
-                                p: "0 .5rem !important",
-                                boxSizing: "border-box",
-                            }}
+                            styles={styles.alert}
                         />
                     )}
-                    <Grid
-                        sx={{
-                            display: "flex",
-                            gap: ".5rem",
-                            alignItems: "center",
-                            marginTop: "1.5rem !important",
-                        }}
-                    >
-                        <Typography sx={{ color: "#272C39" }}>
+                    <Grid sx={styles.linksContainer}>
+                        <Typography sx={styles.textColor}>
                             Already have an account?
                         </Typography>
-                        <Link to="/" style={{ textDecoration: "none" }}>
+                        <Link to="/" style={styles.textDecoration}>
                             <CustomButton
                                 variant="text"
-                                styles={{
-                                    color: "primary.main",
-                                }}
+                                styles={styles.textPrimary}
                                 displayText="Login"
                             />
                         </Link>

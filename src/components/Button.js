@@ -3,6 +3,12 @@ import { Button } from "@mui/material";
 import PropTypes from "prop-types";
 
 const CustomButton = props => {
+    const styles = {
+        btn: {
+            ...props.styles,
+            textTransform: "none !important",
+        },
+    };
     return (
         <>
             <Button
@@ -12,7 +18,7 @@ const CustomButton = props => {
                 fullWidth
                 variant={props.variant}
                 startIcon={props.icon}
-                sx={props.styles}
+                sx={styles.btn}
                 onClick={props.onClick}
                 disabled={props.isDisabled}
             >

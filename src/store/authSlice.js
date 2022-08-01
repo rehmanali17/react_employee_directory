@@ -1,9 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { supabase } from "config/supabase";
 
-const user = localStorage.getItem("user")
-    ? JSON.parse(localStorage.getItem("user"))
-    : null;
+const user = supabase.auth.session() ? supabase.auth.session().user : null;
 
 // Slice
 const slice = createSlice({
@@ -27,7 +25,6 @@ const slice = createSlice({
                 message: "",
             };
             state.inProgress = false;
-            localStorage.setItem("user", JSON.stringify(state.user));
         },
         loginFailed: (state, action) => {
             state.user = null;
@@ -41,7 +38,6 @@ const slice = createSlice({
                 message: "",
             };
             state.inProgress = false;
-            localStorage.setItem("user", JSON.stringify(state.user));
         },
         signupFailed: (state, action) => {
             state.user = null;
@@ -49,7 +45,6 @@ const slice = createSlice({
             state.inProgress = false;
         },
         logout: state => {
-            localStorage.removeItem("user");
             return {
                 ...state,
                 user: null,
@@ -106,4 +101,15 @@ export const signup = values => async dispatch => {
     }
 };
 
-export { logout };
+export const logoutInitiated = () => async dispatch => {
+    try {
+        const { error } = await supabase.auth.signOut();
+        if (!error) {
+            dispatch(logout());
+        }else{
+            throw new Error('Unable to logout');
+        }
+    } catch (error) {
+        throw new Error(error.message);
+    }
+};

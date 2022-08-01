@@ -19,6 +19,10 @@ import EditIcon from "@mui/icons-material/Edit";
 import CustomAvatar from "components/Avatar";
 import CustomDatePicker from "components/DatePicker";
 
+const styles = {
+    container: { display: "flex", height: "100vh" },
+};
+
 const EditProfile = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -58,7 +62,7 @@ const EditProfile = () => {
     }, [user]);
 
     return (
-        <Grid container sx={{ display: "flex", height: "100vh" }}>
+        <Grid container sx={styles.container}>
             <Grid
                 sx={{
                     width: "100vw",
