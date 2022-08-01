@@ -26,3 +26,6 @@ yarn-error.log*
 # Supabase
 **/supabase/.branches
 **/supabase/.temp
+
+# Local Netlify folder
+.netlify
