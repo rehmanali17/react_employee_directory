@@ -160,7 +160,7 @@ const UserListing = () => {
                         roles={userRolesOptions}
                         open={isOpenedDialogBox}
                     />
-                    <Grid container sx={styles.userCountContainer}>
+                    <Grid container sx={styles.usersCountContainer}>
                         <Grid sx={styles.totalUser}>
                             <Stack>
                                 <Typography variant="h2" component="p">
