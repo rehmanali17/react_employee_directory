@@ -1,24 +1,14 @@
 import React from "react";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { TextField } from "@mui/material";
 import PropTypes from "prop-types";
+import { TimePicker } from "@mui/x-date-pickers";
 
-const CustomDatePicker = props => {
-  // const styles = {
-  //     alert: {
-  //         alignSelf: "flex-end",
-  //         position: "relative",
-  //         top: "-.125rem",
-  //         fontSize: ".75rem",
-  //         fontWeight: "bold",
-  //         color: "red",
-  //     },
-  // };
+const CustomTimePicker = props => {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <DatePicker
+      <TimePicker
         label={props.label}
         value={props.value}
         onChange={value => {
@@ -45,11 +35,11 @@ const CustomDatePicker = props => {
   );
 };
 
-CustomDatePicker.propTypes = {
+CustomTimePicker.propTypes = {
   label: PropTypes.string,
   styles: PropTypes.object,
   value: PropTypes.date,
   onChange: PropTypes.func,
 };
 
-export default CustomDatePicker;
+export default CustomTimePicker;

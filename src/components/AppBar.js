@@ -48,6 +48,7 @@ export default function MenuAppBar() {
     };
 
     const handleRedirect = () => {
+        setAnchorElement(null);
         navigate("/home/edit-profile");
     };
 
@@ -108,12 +109,7 @@ export default function MenuAppBar() {
                             open={Boolean(anchorElement)}
                             onClose={handleClose}
                         >
-                            <MenuItem
-                                PaperProps={{
-                                    style: styles.menuItem,
-                                }}
-                                onClick={handleRedirect}
-                            >
+                            <MenuItem onClick={handleRedirect}>
                                 <ListItemText sx={styles.listItem}>
                                     Profile
                                 </ListItemText>
